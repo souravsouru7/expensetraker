@@ -27,8 +27,9 @@ def index(request):
     weekly_sum = weekly_expenses.aggregate(total=Sum('amount'))
 
     daily_sums=Expense.objects.filter().values('date').order_by("date").annotate(sum=Sum('amount'))
+    categry_sums=Expense.objects.filter().values('category').order_by("category").annotate(sum=Sum('amount'))
     expense_form = ExpenseForm()
-    return render(request,'trakapp/index.html',{'expense_form':expense_form,'expenses':expenses,"total_exp": total_exp,"yearly_sum": yearly_sum,"monthly_sum":monthly_sum,"weekly_sum": weekly_sum,"daily_sums":daily_sums})
+    return render(request,'trakapp/index.html',{'expense_form':expense_form,'expenses':expenses,"total_exp": total_exp,"yearly_sum": yearly_sum,"monthly_sum":monthly_sum,"weekly_sum": weekly_sum,"daily_sums":daily_sums,"categry_sums": categry_sums})
 
 def edit(request,id):
     expense=Expense.objects.get(id=id)
