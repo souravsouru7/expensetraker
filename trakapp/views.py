@@ -3,6 +3,11 @@ from .forms import ExpenseForm
 from .models import Expense
 from django.db.models import Sum
 import datetime
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login  as auth_login
+from django.contrib.auth import logout
+
 
 def index(request):
     if request.method =="POST":
@@ -50,3 +55,37 @@ def delete(request,id):
         expense=Expense.objects.get(id=id)
         expense.delete()
     return redirect('index')
+
+
+
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request,'trakapp/register.html',{'form': form})
+
+
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)  # Use the renamed login method
+                return redirect('/')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'trakapp/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')

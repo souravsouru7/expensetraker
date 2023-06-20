@@ -1,0 +1,41 @@
+<style>
+  /* Style for the form container */
+  .form-container {
+    width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Style for the form fields */
+  .form-container input[type="text"],
+  .form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  /* Style for the submit button */
+  .form-container button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  /* Style for the form headings */
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div class="form-container">
+  <h2>Register</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+  </form>
+</div>
